@@ -5,21 +5,34 @@ local LINE_LENGTH = 150
 function Lockpick:init(params)
   self.originX = params.originX
   self.originY = params.originY
-  self.normalizedX, self.normalizedY = 0, 0
+  -- Set initial values
+  self.endX, self.endY = self.originX, self.originY
 end
 
 function Lockpick:update(dt)
-  self.normalizedX, self.normalizedY = self:getNormalizedVector()
+  local normalizedX, normalizedY = self:getNormalizedVector()
+  destX = self.originX + normalizedX * LINE_LENGTH
+  destY = self.originY + normalizedY * LINE_LENGTH
+
+  local angle = self:angle(destX, destY)
+
+  if angle < 0.5 or angle > 2.5 then
+    self.endX = destX
+    self.endY = destY
+  end
 end
 
 function Lockpick:render()
   love.graphics.setColor(1, 1, 1, 1)
-  love.graphics.line(
-    self.originX,
-    self.originY,
-    self.originX + self.normalizedX * LINE_LENGTH,
-    self.originY + self.normalizedY * LINE_LENGTH
-  )
+  love.graphics.line(self.originX, self.originY, self.endX, self.endY)
+end
+
+function Lockpick:angle(destX, destY)
+  return math.atan2(destY - self.originY, destX - self.originX)
+end
+
+-- todo
+function Lockpick:intersects(x, y)
 end
 
 function Lockpick:getNormalizedVector()
