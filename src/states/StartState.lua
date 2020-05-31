@@ -15,7 +15,7 @@ function StartState:render()
   love.graphics.setColor(1, 1, 1, 1)
   love.graphics.setFont(gFonts['large'])
   love.graphics.printf(
-    'My Project!',
+    'Locksmith',
     0,
     WINDOW_HEIGHT / 3,
     WINDOW_WIDTH,

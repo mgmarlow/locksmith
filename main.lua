@@ -1,7 +1,7 @@
 require 'src/dependencies'
 
 function love.load()
-  love.window.setTitle('my project')
+  love.window.setTitle('Locksmith')
 
   love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT)
 
