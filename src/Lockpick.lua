@@ -15,8 +15,7 @@ function Lockpick:update(dt)
   destY = self.originY + normalizedY * LINE_LENGTH
 
   local angle = self:angle(destX, destY)
-
-  if angle < 0.5 or angle > 2.5 then
+  if angle > -0.5 or angle < -2.5 then
     self.endX = destX
     self.endY = destY
   end
@@ -28,7 +27,8 @@ function Lockpick:render()
 end
 
 function Lockpick:angle(destX, destY)
-  return math.atan2(destY - self.originY, destX - self.originX)
+  -- Negate to translate onto love2d coords
+  return -math.atan2(destY - self.originY, destX - self.originX)
 end
 
 -- todo
