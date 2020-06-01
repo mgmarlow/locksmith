@@ -10,6 +10,10 @@ function Lockpick:init(params)
 end
 
 function Lockpick:update(dt)
+  if love.keyboard.isDown('e') then
+    return
+  end
+
   local normalizedX, normalizedY = self:getNormalizedVector()
   destX = self.originX + normalizedX * LINE_LENGTH
   destY = self.originY + normalizedY * LINE_LENGTH
@@ -29,10 +33,6 @@ end
 function Lockpick:angle(destX, destY)
   -- Negate to translate onto love2d coords
   return -math.atan2(destY - self.originY, destX - self.originX)
-end
-
--- todo
-function Lockpick:intersects(x, y)
 end
 
 function Lockpick:getNormalizedVector()

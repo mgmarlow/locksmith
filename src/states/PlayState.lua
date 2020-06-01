@@ -32,9 +32,8 @@ function PlayState:update(dt)
   local distance =
     distance(self.pick.endX, self.target.x, self.pick.endY, self.target.y) -
     CIRCLE_RADIUS
-  print(distance)
 
-  self.progressBar.update(dt, distance)
+  self.progressBar:update(dt, distance)
 
   if love.keyboard.wasPressed('escape') then
     gStateMachine:change('pause')
