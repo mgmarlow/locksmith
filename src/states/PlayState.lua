@@ -22,6 +22,8 @@ function PlayState:enter(params)
     originY = self.originY,
     r = CIRCLE_RADIUS
   }
+
+  self.progressBar = ProgressBar {}
 end
 
 function PlayState:update(dt)
@@ -31,6 +33,8 @@ function PlayState:update(dt)
     distance(self.pick.endX, self.target.x, self.pick.endY, self.target.y) -
     CIRCLE_RADIUS
   print(distance)
+
+  self.progressBar.update(dt, distance)
 
   if love.keyboard.wasPressed('escape') then
     gStateMachine:change('pause')
@@ -43,6 +47,7 @@ function PlayState:render()
 
   self.pick:render()
   self.target:render()
+  self.progressBar:render()
 end
 
 function PlayState:reset()
