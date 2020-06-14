@@ -7,16 +7,16 @@ Dotenv.load
 PROJECT_NAME = 'locksmith'
 
 # https://github.com/rubyzip/rubyzip#zipping-a-directory-recursively
-def write_entries(entries, path, zipfile)
+def write_entries(entries, path, zipfile, include_path: true)
   entries.each do |e|
     zipfile_path = path == '' ? e : File.join(path, e)
 
     if File.directory?(zipfile_path)
-      zipfile.mkdir zipfile_path
+      zipfile.mkdir(zipfile_path)
       subdir = Dir.entries(zipfile_path) - %w[. ..]
       write_entries(subdir, zipfile_path, zipfile)
     else
-      zipfile.add(zipfile_path, zipfile_path)
+      zipfile.add(include_path ? zipfile_path : e, zipfile_path)
     end
   end
 end
@@ -45,7 +45,20 @@ def fuse
   `cd ../`
 end
 
+def distribute
+  entries = Dir.entries('./build/') - %w[. ..]
+  version = `git describe --tags`.chomp
+  dest = "./#{PROJECT_NAME}_#{version}.zip"
+
+  FileUtils.rm(dest) if File.exist?(dest)
+
+  Zip::File.open(dest, Zip::File::CREATE) do |zipfile|
+    write_entries(entries, 'build/', zipfile, include_path: false)
+  end 
+end
+
 clean
 build_zip
 copy_dependencies
 fuse
+distribute
