@@ -25,6 +25,9 @@ function love.load()
     end,
     ['pause'] = function()
       return PauseState()
+    end,
+    ['victory'] = function()
+      return VictoryState()
     end
   }
   gStateMachine:change('start')

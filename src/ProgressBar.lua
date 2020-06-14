@@ -12,12 +12,13 @@ function ProgressBar:init(params)
   self.visible = false
   self.origCameraX, self.origCameraY = gCamera:position()
 
+  self.difficulty = params.difficulty
   if params.difficulty == 'easy' then
-    self.confidence = 90
+    self.confidence = 92
   elseif params.difficulty == 'med' then
-    self.confidence = 95
+    self.confidence = 96
   else
-    self.confidence = 98
+    self.confidence = 99
   end
 end
 
@@ -27,6 +28,7 @@ function ProgressBar:update(dt, distance)
       self.fill = self.fill + 100 * dt
     end
 
+    -- TODO: Move this so that it only shakes when about to break
     if self.fill > 50 then
       gCamera:lookAt(
         self.origCameraX + math.random(-2, 2),
@@ -44,7 +46,7 @@ function ProgressBar:update(dt, distance)
   -- TODO: if hitting against max but below confidence, break after
   -- set amount of time based on difficulty & distance
   if self.visible and self.fill >= self.confidence then
-    print('victory!')
+    gStateMachine:change('victory', {prevDifficulty = self.difficulty})
   end
 
   if (distance ~= nil) then
