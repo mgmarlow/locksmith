@@ -40,11 +40,14 @@ function ProgressBar:update(dt, distance)
     self.visible and self.fill >= self.fillMax and
       self.fill < self.confidence
    then
+    -- Max distance is 150
+    local min = -4 * (distance / 150)
+    local max = 4 * (distance / 150)
+
     -- If the pick is past fill max, indicate that the pick will break
     gCamera:lookAt(
-      -- TODO: Vibrate more based on distance
-      self.origCameraX + math.random(-2, 2),
-      self.origCameraY + math.random(-2, 2)
+      self.origCameraX + math.random(min, max),
+      self.origCameraY + math.random(min, max)
     )
   else
     gCamera:lookAt(self.origCameraX, self.origCameraY)
