@@ -23,7 +23,7 @@ function PlayState:enter(params)
     r = CIRCLE_RADIUS
   }
 
-  self.progressBar = ProgressBar {}
+  self.progressBar = ProgressBar {difficulty = params.difficulty}
 end
 
 function PlayState:update(dt)
