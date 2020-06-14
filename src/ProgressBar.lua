@@ -28,25 +28,25 @@ function ProgressBar:update(dt, distance)
       self.fill = self.fill + 100 * dt
     end
 
-    -- TODO: Move this so that it only shakes when about to break
-    if self.fill > 50 then
-      gCamera:lookAt(
-        self.origCameraX + math.random(-2, 2),
-        self.origCameraY + math.random(-2, 2)
-      )
-    end
-
     self.visible = true
   else
-    gCamera:lookAt(self.origCameraX, self.origCameraY)
     self.fill = 0
     self.visible = false
   end
 
-  -- TODO: if hitting against max but below confidence, break after
-  -- set amount of time based on difficulty & distance
   if self.visible and self.fill >= self.confidence then
     gStateMachine:change('victory', {prevDifficulty = self.difficulty})
+  elseif
+    self.visible and self.fill >= self.fillMax and
+      self.fill < self.confidence
+   then
+    -- If the pick is past fill max, indicate that the pick will break
+    gCamera:lookAt(
+      self.origCameraX + math.random(-2, 2),
+      self.origCameraY + math.random(-2, 2)
+    )
+  else
+    gCamera:lookAt(self.origCameraX, self.origCameraY)
   end
 
   if (distance ~= nil) then
