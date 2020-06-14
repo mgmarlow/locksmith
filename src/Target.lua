@@ -21,8 +21,9 @@ function Target:init(params)
 end
 
 function Target:render()
-  -- debug only
-  love.graphics.setColor(1, 0, 0, 1)
-  love.graphics.setPointSize(10)
-  love.graphics.points(self.x, self.y)
+  if gDebug then
+    love.graphics.setColor(1, 0, 0, 1)
+    love.graphics.setPointSize(10)
+    love.graphics.points(self.x, self.y)
+  end
 end
