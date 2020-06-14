@@ -1,6 +1,8 @@
 PauseState = Class {__includes = BaseState}
 
 function PauseState:enter(params)
+  self.target = params.target
+  self.difficulty = params.difficulty
 end
 
 function PauseState:update(dt)
@@ -9,7 +11,13 @@ function PauseState:update(dt)
   end
 
   if love.keyboard.wasPressed('escape') then
-    gStateMachine:change('play')
+    gStateMachine:change(
+      'play',
+      {
+        target = self.target,
+        difficulty = self.difficulty
+      }
+    )
   end
 end
 

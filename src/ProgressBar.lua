@@ -42,6 +42,7 @@ function ProgressBar:update(dt, distance)
    then
     -- If the pick is past fill max, indicate that the pick will break
     gCamera:lookAt(
+      -- TODO: Vibrate more based on distance
       self.origCameraX + math.random(-2, 2),
       self.origCameraY + math.random(-2, 2)
     )

@@ -17,11 +17,12 @@ function PlayState:enter(params)
   }
 
   self.target =
+    params.target or
     Target {
-    originX = self.originX,
-    originY = self.originY,
-    r = CIRCLE_RADIUS
-  }
+      originX = self.originX,
+      originY = self.originY,
+      r = CIRCLE_RADIUS
+    }
 
   self.progressBar = ProgressBar {difficulty = params.difficulty}
 end
@@ -36,7 +37,7 @@ function PlayState:update(dt)
   self.progressBar:update(dt, distance)
 
   if love.keyboard.wasPressed('escape') then
-    gStateMachine:change('pause')
+    gStateMachine:change('pause', {target = self.target})
   end
 end
 
@@ -47,6 +48,17 @@ function PlayState:render()
   self.pick:render()
   self.target:render()
   self.progressBar:render()
+
+  love.graphics.setColor(1, 1, 1, 1)
+  love.graphics.setFont(gFonts['small'])
+  love.graphics.printf(
+    'try to find the sweet spot to pick the lock',
+    25,
+    40,
+    500
+  )
+  love.graphics.printf('control the pick with your mouse', 25, 80, 500)
+  love.graphics.printf('press e to apply the tension wrench', 25, 120, 500)
 end
 
 function PlayState:reset()
