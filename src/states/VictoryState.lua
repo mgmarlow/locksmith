@@ -1,6 +1,8 @@
 VictoryState = Class {__includes = BaseState}
 
 function VictoryState:enter(params)
+  self.numPicks = params.numPicks
+
   if params.prevDifficulty == 'easy' then
     self.nextDifficulty = 'med'
   elseif params.prevDifficulty == 'med' then
@@ -12,7 +14,10 @@ end
 
 function VictoryState:update(dt)
   if love.keyboard.wasPressed('e') then
-    gStateMachine:change('play', {difficulty = self.nextDifficulty})
+    gStateMachine:change(
+      'play',
+      {difficulty = self.nextDifficulty, numPicks = self.numPicks}
+    )
   end
 
   if love.keyboard.wasPressed('escape') then

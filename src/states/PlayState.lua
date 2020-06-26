@@ -36,7 +36,10 @@ function PlayState:enter(params)
   self.progressBar = ProgressBar {}
 
   local handleLockPicked = function()
-    gStateMachine:change('victory', {prevDifficulty = params.difficulty})
+    gStateMachine:change(
+      'victory',
+      {prevDifficulty = params.difficulty, numPicks = self.numPicks}
+    )
   end
 
   local handlePickBreak = function()
