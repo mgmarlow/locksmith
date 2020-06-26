@@ -11,6 +11,7 @@ function Lock:init(params)
   self.radius = params.radius
   self.originX = params.originX
   self.originY = params.originY
+  self.image = love.graphics.newImage('img/lock.png')
 
   self.difficulty = params.difficulty
   if params.difficulty == 'easy' then
@@ -54,5 +55,9 @@ end
 
 function Lock:render()
   love.graphics.setColor(1, 1, 1, 1)
-  love.graphics.circle('line', self.originX, self.originY, self.radius)
+  love.graphics.draw(
+    self.image,
+    self.originX - self.image:getWidth() / 2,
+    self.originY - self.image:getHeight() / 2 - 14
+  )
 end
