@@ -3,6 +3,8 @@ PauseState = Class {__includes = BaseState}
 function PauseState:enter(params)
   self.target = params.target
   self.difficulty = params.difficulty
+  self.pick = params.pick
+  self.numPicks = params.numPicks
 end
 
 function PauseState:update(dt)
@@ -15,7 +17,9 @@ function PauseState:update(dt)
       'play',
       {
         target = self.target,
-        difficulty = self.difficulty
+        difficulty = self.difficulty,
+        pick = self.pick,
+        numPicks = self.numPicks
       }
     )
   end

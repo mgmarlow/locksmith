@@ -1,11 +1,11 @@
 GameOverState = Class {__includes = BaseState}
 
-function GameOverState:enter(params)
+function GameOverState:enter()
 end
 
 function GameOverState:update(dt)
   if love.keyboard.wasPressed('e') then
-    gStateMachine:change('play')
+    gStateMachine:change('play', {})
   end
 
   if love.keyboard.wasPressed('escape') then

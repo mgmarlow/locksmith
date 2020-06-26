@@ -9,6 +9,7 @@ end
 function PlayState:enter(params)
   self.originX = love.graphics.getWidth() / 2
   self.originY = love.graphics.getHeight() / 2
+  self.origCameraX, self.origCameraY = gCamera:position()
   self.numPicks = params.numPicks or 3
 
   self.pick =
@@ -29,7 +30,7 @@ function PlayState:enter(params)
   self.progressBar = ProgressBar {difficulty = params.difficulty}
 
   local handlePickBreak = function()
-    print('breakage!')
+    self.numPicks = self.numPicks - 1
   end
 
   Signal.register('pick_break', handlePickBreak)
@@ -37,6 +38,7 @@ end
 
 function PlayState:exit()
   Signal.clear('pick_break')
+  gCamera:lookAt(self.origCameraX, self.origCameraY)
 end
 
 function PlayState:update(dt)
@@ -46,6 +48,10 @@ function PlayState:update(dt)
 
   self.pick:update(dt)
   self.progressBar:update(dt, distance)
+
+  if self.numPicks == 0 then
+    gStateMachine:change('game_over')
+  end
 
   if love.keyboard.wasPressed('escape') then
     gStateMachine:change('pause', {target = self.target})
@@ -61,19 +67,32 @@ function PlayState:render()
   self.progressBar:render()
 
   love.graphics.setColor(1, 1, 1, 1)
+
+  -- Game State
+  love.graphics.setFont(gFonts['medium'])
+  love.graphics.printf('picks remaining: ' .. self.numPicks, 25, 80, 500)
+
+  -- Tutorial
   love.graphics.setFont(gFonts['small'])
   love.graphics.printf(
     'try to find the sweet spot to pick the lock',
     25,
-    40,
+    WINDOW_HEIGHT - 160,
     500
   )
-  love.graphics.printf('control the pick with your mouse', 25, 80, 500)
-  love.graphics.printf('press e to apply the tension wrench', 25, 120, 500)
+  love.graphics.printf(
+    'control the pick with your mouse',
+    25,
+    WINDOW_HEIGHT - 120,
+    500
+  )
+  love.graphics.printf(
+    'press e to apply the tension wrench',
+    25,
+    WINDOW_HEIGHT - 80,
+    500
+  )
 end
 
 function PlayState:reset()
-end
-
-function PlayState:exit()
 end
