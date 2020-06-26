@@ -23,6 +23,8 @@ function ProgressBar:init(params)
 end
 
 function ProgressBar:update(dt, distance)
+  -- TODO: Move the actual progress state into a separate
+  -- class to decouple it from UI logic.
   if love.keyboard.isDown('e') then
     if self.fill < self.fillMax then
       self.fill = self.fill + 100 * dt

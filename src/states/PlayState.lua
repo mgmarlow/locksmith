@@ -9,12 +9,14 @@ end
 function PlayState:enter(params)
   self.originX = love.graphics.getWidth() / 2
   self.originY = love.graphics.getHeight() / 2
+  self.numPicks = params.numPicks or 3
 
   self.pick =
+    params.pick or
     Lockpick {
-    originX = self.originX,
-    originY = self.originY
-  }
+      originX = self.originX,
+      originY = self.originY
+    }
 
   self.target =
     params.target or
@@ -25,15 +27,24 @@ function PlayState:enter(params)
     }
 
   self.progressBar = ProgressBar {difficulty = params.difficulty}
+
+  local handlePickBreak = function()
+    print('breakage!')
+  end
+
+  Signal.register('pick_break', handlePickBreak)
+end
+
+function PlayState:exit()
+  Signal.clear('pick_break')
 end
 
 function PlayState:update(dt)
-  self.pick:update(dt, self.target)
-
   local distance =
     distance(self.pick.endX, self.target.x, self.pick.endY, self.target.y) -
     CIRCLE_RADIUS
 
+  self.pick:update(dt)
   self.progressBar:update(dt, distance)
 
   if love.keyboard.wasPressed('escape') then
