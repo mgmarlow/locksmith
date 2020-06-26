@@ -2,7 +2,7 @@ Target = Class {}
 
 local function randomFloat(min, max, precision)
   local range = max - min
-  local offset = range * math.random()
+  local offset = range * love.math.random()
   local unrounded = min + offset
 
   if not precision then
