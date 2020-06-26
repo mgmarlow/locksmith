@@ -30,7 +30,7 @@ function Lockpick:update(dt)
 
   if love.keyboard.isDown('e') then
     -- TODO: subtract HP if hitting against progress limit
-    self.hp = self.hp - 5
+    -- self.hp = self.hp - 5
     return
   end
 

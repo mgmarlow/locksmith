@@ -8,6 +8,7 @@ require 'src/StateMachine'
 require 'src/Animation'
 require 'src/Target'
 require 'src/Lockpick'
+require 'src/Lock'
 require 'src/ProgressBar'
 
 -- States

@@ -27,17 +27,25 @@ function PlayState:enter(params)
       r = CIRCLE_RADIUS
     }
 
-  self.progressBar = ProgressBar {difficulty = params.difficulty}
+  self.lock = Lock {difficulty = params.difficulty}
+
+  self.progressBar = ProgressBar {}
+
+  local handleLockPicked = function()
+    gStateMachine:change('victory', {prevDifficulty = params.difficulty})
+  end
 
   local handlePickBreak = function()
     self.numPicks = self.numPicks - 1
   end
 
   Signal.register('pick_break', handlePickBreak)
+  Signal.register('lock_picked', handleLockPicked)
 end
 
 function PlayState:exit()
   Signal.clear('pick_break')
+  Signal.clear('lock_picked')
   gCamera:lookAt(self.origCameraX, self.origCameraY)
 end
 
@@ -46,8 +54,9 @@ function PlayState:update(dt)
     distance(self.pick.endX, self.target.x, self.pick.endY, self.target.y) -
     CIRCLE_RADIUS
 
-  self.pick:update(dt)
-  self.progressBar:update(dt, distance)
+  self.lock:update(dt, distance)
+  self.pick:update(dt, self.lock)
+  self.progressBar:update(dt, distance, self.lock)
 
   if self.numPicks == 0 then
     gStateMachine:change('game_over')
@@ -64,7 +73,7 @@ function PlayState:render()
 
   self.pick:render()
   self.target:render()
-  self.progressBar:render()
+  self.progressBar:render(self.lock)
 
   love.graphics.setColor(1, 1, 1, 1)
 
