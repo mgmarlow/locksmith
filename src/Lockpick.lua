@@ -1,5 +1,6 @@
 Lockpick = Class {}
 
+local BREAK_VELOCITY = 2
 local LINE_LENGTH = 150
 
 function Lockpick:init(params)
@@ -30,7 +31,7 @@ function Lockpick:update(dt, distance, lock)
 
   if love.keyboard.isDown('e') then
     if lock.blocked then
-      self.hp = self.hp - (distance * dt * 2)
+      self.hp = self.hp - ((distance / 150) * dt + BREAK_VELOCITY)
     end
 
     return

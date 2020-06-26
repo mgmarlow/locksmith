@@ -8,6 +8,9 @@ function Lock:init(params)
   self.progress = 0
   self.maxProgress = 0
   self.solved = false
+  self.radius = params.radius
+  self.originX = params.originX
+  self.originY = params.originY
 
   self.difficulty = params.difficulty
   if params.difficulty == 'easy' then
@@ -47,4 +50,9 @@ function Lock:update(dt, distance)
   if (distance ~= nil) then
     self.maxProgress = clamp(100 - distance, 0, 100)
   end
+end
+
+function Lock:render()
+  love.graphics.setColor(1, 1, 1, 1)
+  love.graphics.circle('line', self.originX, self.originY, self.radius)
 end

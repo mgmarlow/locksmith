@@ -11,14 +11,14 @@ function ProgressBar:init(params)
   self.origCameraX, self.origCameraY = gCamera:position()
 end
 
-function ProgressBar:update(dt, distance, lock)
-  if love.keyboard.isDown('e') then
+function ProgressBar:update(dt, distance, lock, pick)
+  if love.keyboard.isDown('e') and not pick.broken then
     self.visible = true
   else
     self.visible = false
   end
 
-  if self.visible and lock.blocked then
+  if self.visible and lock.blocked and not pick.broken then
     -- Max distance is 150
     local min = -4 * (distance / 150)
     local max = 4 * (distance / 150)
@@ -37,6 +37,11 @@ function ProgressBar:render(lock)
     return
   end
 
-  love.graphics.setColor(1, 1, 1, 1)
+  if lock.blocked then
+    love.graphics.setColor(1, 0, 0, 1)
+  else
+    love.graphics.setColor(1, 1, 1, 1)
+  end
+
   love.graphics.rectangle('fill', self.x, self.y, lock.progress, 10)
 end
