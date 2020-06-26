@@ -55,7 +55,7 @@ function PlayState:update(dt)
     CIRCLE_RADIUS
 
   self.lock:update(dt, distance)
-  self.pick:update(dt, self.lock)
+  self.pick:update(dt, distance, self.lock)
   self.progressBar:update(dt, distance, self.lock)
 
   if self.numPicks == 0 then

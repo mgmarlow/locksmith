@@ -11,7 +11,7 @@ function Lockpick:init(params)
   self.endX, self.endY = self.originX, self.originY
 end
 
-function Lockpick:update(dt)
+function Lockpick:update(dt, distance, lock)
   if self.broken then
     return
   end
@@ -29,8 +29,10 @@ function Lockpick:update(dt)
   end
 
   if love.keyboard.isDown('e') then
-    -- TODO: subtract HP if hitting against progress limit
-    -- self.hp = self.hp - 5
+    if lock.blocked then
+      self.hp = self.hp - (distance * dt * 2)
+    end
+
     return
   end
 
