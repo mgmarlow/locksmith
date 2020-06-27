@@ -4,6 +4,7 @@ Signal = require 'lib/signal'
 Camera = require 'lib/camera'
 
 require 'src/constants'
+require 'src/util'
 require 'src/StateMachine'
 require 'src/Animation'
 require 'src/Target'

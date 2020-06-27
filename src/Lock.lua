@@ -1,9 +1,5 @@
 Lock = Class {}
 
-local function clamp(n, low, high)
-  return math.min(math.max(n, low), high)
-end
-
 function Lock:init(params)
   self.progress = 0
   self.maxProgress = 0
@@ -11,7 +7,7 @@ function Lock:init(params)
   self.radius = params.radius
   self.originX = params.originX
   self.originY = params.originY
-  self.image = love.graphics.newImage('img/lock.png')
+  self.image = love.graphics.newImage('img/lock2.png')
 
   self.difficulty = params.difficulty
   if params.difficulty == 'easy' then
@@ -58,6 +54,6 @@ function Lock:render()
   love.graphics.draw(
     self.image,
     self.originX - self.image:getWidth() / 2,
-    self.originY - self.image:getHeight() / 2 - 14
+    self.originY - self.image:getHeight() / 2 + 10
   )
 end

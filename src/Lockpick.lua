@@ -8,6 +8,9 @@ function Lockpick:init(params)
   self.originY = params.originY
   self.hp = 100
   self.broken = false
+  self.image = love.graphics.newImage('img/pick.png')
+  self.brokenImage = love.graphics.newImage('img/broken_pick.png')
+  self.orientation = 0
   -- Set initial values
   self.endX, self.endY = self.originX, self.originY
 end
@@ -43,15 +46,32 @@ function Lockpick:update(dt, distance, lock)
 
   local angle = self:angle(destX, destY)
   if angle > -0.5 or angle < -2.5 then
+    self.orientation = -angle
     self.endX = destX
     self.endY = destY
   end
 end
 
 function Lockpick:render()
-  local alpha = self.broken and 0.2 or 1
-  love.graphics.setColor(1, 1, 1, alpha)
-  love.graphics.line(self.originX, self.originY, self.endX, self.endY)
+  local scaleY = 1
+  if self.orientation < -1.5 or self.orientation > 2.5 then
+    scaleY = -1
+  else
+    scaleY = 1
+  end
+
+  local image = self.broken and self.brokenImage or self.image
+
+  love.graphics.draw(
+    image,
+    self.originX,
+    self.originY - self.image:getHeight() / 2 + 10,
+    self.orientation,
+    1.5,
+    scaleY,
+    0,
+    self.image:getHeight() / 2
+  )
 end
 
 function Lockpick:angle(destX, destY)
