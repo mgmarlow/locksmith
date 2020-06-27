@@ -10,6 +10,7 @@ require 'src/Animation'
 require 'src/Target'
 require 'src/Lockpick'
 require 'src/Lock'
+require 'src/TensionWrench'
 require 'src/ProgressBar'
 
 -- States

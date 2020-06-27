@@ -18,6 +18,12 @@ function PlayState:enter(params)
     originY = self.originY
   }
 
+  self.wrench =
+    TensionWrench {
+    originX = self.originX,
+    originY = self.originY
+  }
+
   self.pick =
     params.pick or
     Lockpick {
@@ -63,6 +69,7 @@ function PlayState:update(dt)
 
   self.lock:update(dt, distance)
   self.pick:update(dt, distance, self.lock)
+  self.wrench:update(dt, self.pick)
   self.progressBar:update(dt, distance, self.lock, self.pick)
 
   if self.numPicks == 0 then
@@ -81,6 +88,7 @@ function PlayState:render()
   self.lock:render()
   self.pick:render()
   self.target:render()
+  self.wrench:render()
   self.progressBar:render(self.lock)
 
   love.graphics.setColor(1, 1, 1, 1)
